@@ -18,13 +18,10 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 
 /**
- *
+ * Multi-threading ile beraber kullanilabilecek bir http istemcisidir.
  * @author vaıo
  */
 public class Client {
@@ -36,7 +33,10 @@ public class Client {
     }
     
     
-    
+    /**
+     * Multithread ile kullanilirken sorun cikarmayacak bir DefaulHttpClient dondurur.
+     * @return 
+     */
     private DefaultHttpClient getThreadSafeClient() {
         DefaultHttpClient safeClient = new DefaultHttpClient();
         ClientConnectionManager mgr = safeClient.getConnectionManager();
@@ -48,11 +48,21 @@ public class Client {
         return safeClient;
     }
 
-
+    /**
+     * Verilen adresin icerigini string olarak getirir.
+     * @param Address
+     * @return 
+     */
     public String request(String Address) {
         return request(Address, new ArrayList<NameValuePair>());
     }
 
+    /**
+     * Verilen adresini postList ile belirtilen 
+     * @param Address
+     * @param postList
+     * @return 
+     */
     public String request(String Address, List<NameValuePair> postList) {
 
         HttpPost httpPost = new HttpPost(Address);
